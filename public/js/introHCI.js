@@ -20,11 +20,20 @@ function initializePage() {
 function addProjectDetails(e) {
 	// Prevent following the link
 	e.preventDefault();
-
 	// Get the div ID, e.g., "project3"
 	var projectID = $(this).closest('.project').attr('id');
 	// get rid of 'project' from the front of the id 'project3'
 	var idNumber = projectID.substr('project'.length);
-
 	console.log("User clicked on project " + idNumber);
+	$.get("http://localhost:3000/project/" + idNumber, addProject);
+}
+
+function addProject(result) {
+	console.log(result);
+	var projectID = result['id']
+	var projectHTML = '<h2>' + result['title'] + '</h2>' +
+    '<h3>' + result['date'] + '</h3>' +
+		'<img src="' + result['image'] + '" class="detailsImage">'
+		+ result['summary'];
+	$("#project" + projectID + " div.details").html(projectHTML);
 }
